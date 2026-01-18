@@ -1,0 +1,24 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /app
+
+# Copy csproj and restore dependencies
+COPY Backend/*.csproj ./Backend/
+RUN dotnet restore ./Backend/KnowledgeBaseService.csproj
+
+# Copy everything else and build
+COPY Backend/ ./Backend/
+WORKDIR /app/Backend
+RUN dotnet publish -c Release -o out
+
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build /app/Backend/out .
+
+# Create KnowledgeSources directory with write permissions (will be mounted as volume)
+RUN mkdir -p ./KnowledgeSources && chmod 777 ./KnowledgeSources
+
+EXPOSE 5000
+
+ENTRYPOINT ["dotnet", "KnowledgeBaseService.dll"]
+

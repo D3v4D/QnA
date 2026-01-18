@@ -1,0 +1,28 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*",
+  "AI": {
+    "LLM": {
+      "Mistral": {
+        "Url": "https://api.mistral.ai",
+        "ApiKey": "your-mistral-api-key-here"
+      }
+    },
+    
+    "Embedding": {
+      "Provider": "OnPremise",
+      "OpenAI": {
+        "ApiKey": "your-openai-api-key-here"
+      },
+      "Cohere": {
+        "ApiKey": "your-cohere-api-key-here"
+      }
+    }
+  }
+}
+
